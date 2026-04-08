@@ -2,3 +2,6 @@
 Thumbs.db
 *.swp
 *.swo
+.env
+__pycache__/
+.pytest_cache/

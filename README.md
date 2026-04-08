@@ -87,3 +87,35 @@ To run them locally:
 python -m pip install -r requirements.txt
 jupyter lab
 ```
+
+For headless verification without Jupyter:
+
+```bash
+make train-notebooks
+```
+
+## GitHub Actions
+
+The repo includes a training workflow in `.github/workflows/training-runs.yml`.
+
+It does two things on `main` pushes and manual dispatch:
+
+- executes the notebooks through a standard-library runner;
+- runs cloud-auth smoke tests against whichever provider secrets are present in the `training` GitHub environment.
+
+## Environment Credential Sync
+
+This repo also includes a repo-local credential sync workflow:
+
+```bash
+export GH_ENVIRONMENT=training
+make github-env-credentials
+```
+
+What it attempts to collect from the current machine:
+
+- AWS env vars plus `~/.aws/credentials` and `~/.aws/config`
+- GCP project config and ADC JSON when available
+- Azure env vars plus active Azure CLI account metadata and a current ARM access token
+
+The generated `.env` is ignored by git and is overwritten on each run.
