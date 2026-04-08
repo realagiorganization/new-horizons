@@ -72,3 +72,18 @@ That split keeps the human-visible workspace local while still letting the syste
 ## Next Reading
 
 - [Architecture Notes](docs/architecture.md)
+
+## Notebooks
+
+The repo now includes a notebook suite under `notebooks/`:
+
+- `01_burst_scheduler_playground.ipynb`: heuristic provider scoring and burst decisions.
+- `02_nfs_manifest_index.ipynb`: local-repo manifest extraction plus S3 and BigQuery index shaping.
+- `03_budget_latency_simulation.ipynb`: simulation of local-only versus burst-aware execution policy.
+
+To run them locally:
+
+```bash
+python -m pip install -r requirements.txt
+jupyter lab
+```
