@@ -103,6 +103,14 @@ It does two things on `main` pushes and manual dispatch:
 - executes the notebooks through a standard-library runner;
 - runs cloud-auth smoke tests against whichever provider secrets are present in the `training` GitHub environment.
 
+The repo also includes a manual deployment workflow in `.github/workflows/deploy-cloud-targets.yml`.
+
+That workflow reads cloud targets from GitHub Actions environment variables and applies a minimal remote footprint per provider:
+
+- `aws`: creates or reuses an S3 bucket, then uploads a deployment manifest.
+- `azure`: creates or updates a resource group tagged for the repo.
+- `gcp`: creates or reuses a GCS bucket, then uploads a deployment manifest.
+
 ## Environment Credential Sync
 
 This repo also includes a repo-local credential sync workflow:
@@ -119,3 +127,22 @@ What it attempts to collect from the current machine:
 - Azure env vars plus active Azure CLI account metadata and a current ARM access token
 
 The generated `.env` is ignored by git and is overwritten on each run.
+
+## Deployment Variables
+
+The `training` environment should define variables like:
+
+- `TARGET_CLOUDS`
+- `DEPLOY_NAMESPACE`
+- `AWS_DEPLOY_REGION`
+- `AWS_S3_BUCKET_PREFIX`
+- `AZURE_LOCATION`
+- `AZURE_RESOURCE_GROUP`
+- `GCP_LOCATION`
+- `GCP_GCS_BUCKET_PREFIX`
+
+Then run the deployment workflow manually or locally:
+
+```bash
+make deploy-cloud-targets
+```
